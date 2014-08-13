@@ -88,9 +88,25 @@ def main(argv):
     channel_swap = [int(s) for s in args.channel_swap.split(',')]
 
     # Make classifier.
+    #classifier = caffe.Classifier(args.model_def, args.pretrained_model,
+    #        image_dims=image_dims, gpu=args.gpu, mean_file=args.mean_file,
+    #        input_scale=args.input_scale, channel_swap=channel_swap)
+
+    print args.model_def
+    print args.pretrained_model
+    print image_dims
+    print args.gpu
+    print args.mean_file
+    print args.input_scale
     classifier = caffe.Classifier(args.model_def, args.pretrained_model,
             image_dims=image_dims, gpu=args.gpu, mean_file=args.mean_file,
-            input_scale=args.input_scale, channel_swap=channel_swap)
+            input_scale=args.input_scale)
+
+
+    print classifier.params['conv1'][0].data.shape
+    filters = classifier.params['conv1'][0].data
+    print filters
+
 
     if args.gpu:
         print 'GPU mode'
@@ -113,6 +129,7 @@ def main(argv):
     print "Done in %.2f s." % (time.time() - start)
 
     # Save
+    print predictions
     np.save(args.output_file, predictions)
 
 

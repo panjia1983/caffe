@@ -117,8 +117,8 @@ LIBRARIES := cudart cublas curand \
 	pthread \
 	glog protobuf leveldb snappy \
 	boost_system \
-	hdf5_hl hdf5 \
-	opencv_core opencv_highgui opencv_imgproc
+	opencv_core opencv_highgui opencv_imgproc \
+	hdf5_hl hdf5
 PYTHON_LIBRARIES := boost_python python2.7
 WARNINGS := -Wall
 
@@ -280,12 +280,12 @@ runtest: $(TEST_ALL_BIN)
 $(ALL_BUILD_DIRS):
 	@ mkdir -p $@
 
-$(NAME): $(PROTO_OBJS) $(OBJS) | $(LIB_BUILD_DIR)
+$(NAME): $(OBJS) | $(LIB_BUILD_DIR)
 	$(CXX) -shared -o $@ $(OBJS) $(CXXFLAGS) $(LDFLAGS) $(WARNINGS)
 	@ echo
 
-$(STATIC_NAME): $(PROTO_OBJS) $(OBJS) | $(LIB_BUILD_DIR)
-	ar rcs $@ $(PROTO_OBJS) $(OBJS)
+$(STATIC_NAME): $(OBJS) | $(LIB_BUILD_DIR)
+	ar rcs $@ $(OBJS)
 	@ echo
 
 $(TEST_BUILD_DIR)/%.o: src/$(PROJECT)/test/%.cpp $(HXX_SRCS) $(TEST_HDRS) \
@@ -341,7 +341,7 @@ $(UTIL_BUILD_DIR)/%.cuo: src/$(PROJECT)/util/%.cu | $(UTIL_BUILD_DIR)
 	@ echo
 
 $(TOOL_BUILD_DIR)/%.o: tools/%.cpp $(PROTO_GEN_HEADER) | $(TOOL_BUILD_DIR)
-	$(CXX) $< $(CXXFLAGS) -c -o $@ $(LDFLAGS)
+	$(CXX) $< $(CXXFLAGS) -c -o $@ $(LDFLAGS) 
 	@ echo
 
 $(EXAMPLE_BUILD_DIR)/%.o: examples/%.cpp $(PROTO_GEN_HEADER) \

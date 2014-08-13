@@ -10,6 +10,9 @@
 // if the last argument is 1, a random shuffle will be carried out before we
 // process the file lines.
 
+#include "caffe/proto/caffe.pb.h"
+#include "caffe/util/io.hpp"
+
 #include <glog/logging.h>
 #include <leveldb/db.h>
 #include <leveldb/write_batch.h>
@@ -20,8 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "caffe/proto/caffe.pb.h"
-#include "caffe/util/io.hpp"
 
 using namespace caffe;  // NOLINT(build/namespaces)
 using std::pair;

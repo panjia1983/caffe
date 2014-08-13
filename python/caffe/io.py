@@ -17,7 +17,8 @@ def load_image(filename):
     """
     img = skimage.img_as_float(skimage.io.imread(filename)).astype(np.float32)
     if img.ndim == 2:
-        img = np.tile(img[:, :, np.newaxis], (1, 1, 3))
+        #img = np.tile(img[:, :, np.newaxis], (1, 1, 3))
+	img = np.expand_dims(img, axis=2)
     elif img.shape[2] == 4:
         img = img[:, :, :3]
     return img
